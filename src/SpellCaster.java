@@ -50,3 +50,5 @@ public class SpellCaster {
         System.out.println(resultSpell);
     }
 }
+
+//Spell Caster 3/10
