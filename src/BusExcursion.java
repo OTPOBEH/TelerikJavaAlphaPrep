@@ -6,21 +6,29 @@ public class BusExcursion {
     public static void main(String[] args) throws Exception {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
-        int[] busSize = Arrays.stream(reader.readLine().split(" "))
-                .mapToInt(Integer::parseInt)
-                .toArray();
-        int numberOfTunnels = Integer.parseInt(reader.readLine());
-        int counter = 0;
+        String[] busSizeInput = reader.readLine().split(" ");
 
-        for (int i = 1; i <= numberOfTunnels; i++) {
+        final int busWidth = Integer.parseInt(busSizeInput[0]);
+        final int busHeigth = Integer.parseInt(busSizeInput[1]);
 
-            int[] tunnelSize = Arrays.stream(reader.readLine().split(" "))
-                    .mapToInt(Integer::parseInt)
-                    .toArray();
+        final int numberOfTunnels = Integer.parseInt(reader.readLine());
 
-            if (tunnelSize[0] < busSize[0] || tunnelSize[1] < busSize[1]) counter = i;
+        boolean isCrashed = false;
+
+        int counter;
+
+        for (counter = 1; counter <= numberOfTunnels; counter++) {
+
+            String[] input = reader.readLine().split(" ");
+            int tunnelWidth = Integer.parseInt(input[0]);
+            int tunnelHeigth = Integer.parseInt(input[1]);
+
+            if (busWidth > tunnelWidth || busHeigth > tunnelHeigth) {
+                isCrashed = true;
+                break;
+            }
         }
 
-        System.out.println(counter > 0 ? counter : "No crash");
+        System.out.println(isCrashed ? counter : "No crash");
     }
 }
