@@ -23,10 +23,7 @@ public class IgraSChisla {
 
             int result = 0;
             for (int j = 2; j <= gcd; j++) {
-
-                if (gcd % j == 0) {
-                    result++;
-                }
+                if (gcd % j == 0) result++;
             }
 
             if (result > biggestScore) {
