@@ -43,3 +43,4 @@ public class Deliteli {
         return true;
     }
 }
+//9 / 10
