@@ -31,3 +31,4 @@ public class SubsetOfSumS {
         System.out.println(hasSum ? "yes" : "no");
     }
 }
+    // Subset of Sum S 15/20
