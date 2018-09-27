@@ -12,7 +12,7 @@ public class Krustoslovica {
 
         StringBuilder currentWord = new StringBuilder();
 
-        String firstWord = "{"; //за да сме сигурни, че още първата въведена дума ще е по напред лексикографски
+        String firstWord = "{";
 
         String[] crossroad = new String[rows];
 
@@ -24,10 +24,13 @@ public class Krustoslovica {
                 if (currentChar != '#') {
                     currentWord.append(currentChar);
                 } else {
-                    String currentWordAsStr = currentWord.toString();
-                    if (currentWordAsStr.compareTo(firstWord) < 0 && currentWordAsStr.length() > 1) {
-                        firstWord = currentWordAsStr;
+                    if (currentWord.length() > 1) {
+                        String currentWordAsStr = currentWord.toString();
+                        if (currentWordAsStr.compareTo(firstWord) < 0 && currentWordAsStr.length() > 1) {
+                            firstWord = currentWordAsStr;
+                        }
                     }
+
                     currentWord = new StringBuilder();
                 }
             }
@@ -45,10 +48,13 @@ public class Krustoslovica {
                 if (currentChar != '#') {
                     currentWord.append(currentChar);
                 } else {
-                    String currentWordAsStr = currentWord.toString();
-                    if (currentWordAsStr.compareTo(firstWord) < 0 && currentWordAsStr.length() > 1) {
-                        firstWord = currentWordAsStr;
+                    if (currentWord.length() > 1) {
+                        String currentWordAsStr = currentWord.toString();
+                        if (currentWordAsStr.compareTo(firstWord) < 0 && currentWordAsStr.length() > 1) {
+                            firstWord = currentWordAsStr;
+                        }
                     }
+
                     currentWord = new StringBuilder();
                 }
             }
