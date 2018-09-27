@@ -12,7 +12,7 @@ public class Icecream {
         for (int i = 0; elephantsLeft != 0 && i < input[1].length(); i++) {
             if (input[1].charAt(i) != '0') elephantsLeft--;
         }
-
+//asd
         System.out.println(elephantsLeft);
     }
 }
