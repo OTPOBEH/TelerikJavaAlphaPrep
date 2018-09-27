@@ -12,7 +12,7 @@ public class Krustoslovica {
 
         StringBuilder currentWord = new StringBuilder();
 
-        String firstWord = "{";
+        String firstWord = "{"; //за да сме сигурни, че още първата въведена дума ще е по напред лексикографски
 
         String[] crossroad = new String[rows];
 
@@ -39,8 +39,6 @@ public class Krustoslovica {
             currentWord = new StringBuilder();
         }
 
-        currentWord = new StringBuilder();
-
         for (int col = 0; col < crossroad[0].length(); col++) {
             for (int row = 0; row < rows; row++) {
                 char currentChar = crossroad[row].charAt(col);
@@ -51,7 +49,6 @@ public class Krustoslovica {
                     if (currentWordAsStr.compareTo(firstWord) < 0 && currentWordAsStr.length() > 1) {
                         firstWord = currentWordAsStr;
                     }
-
                     currentWord = new StringBuilder();
                 }
             }
