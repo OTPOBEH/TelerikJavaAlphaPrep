@@ -40,11 +40,10 @@ public class IgraSChisla {
 
         if (winningNumbers.length() == 0) {
             System.out.println("No winners");
-            return;
+        } else {
+            System.out.println(biggestScore);
+            System.out.print(winningNumbers);
         }
-
-        System.out.println(biggestScore);
-        System.out.print(winningNumbers);
     }
 
     static int gcd(int a, int b) {
