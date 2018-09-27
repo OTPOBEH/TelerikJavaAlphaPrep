@@ -6,18 +6,19 @@ public class Parking {
     public static void main(String[] args) throws Exception {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
-        int[] parkingSize = Arrays.stream(reader.readLine().split(" "))
-                .mapToInt(Integer::parseInt)
-                .toArray();
+        String[] parkingSizeInput = reader.readLine().split(" ");
+
+        int parkingWidth = Integer.parseInt(parkingSizeInput[0]);
+        int parkinglength = Integer.parseInt(parkingSizeInput[1]);
 
         final int bigCarSize = 4;
 
-        String [][] parkingConfig = new String[parkingSize[0]][parkingSize[1]];
+        String [][] parkingConfig = new String[parkingWidth][parkinglength];
 
-        for (int row = 0; row < parkingSize[0]; row++) {
+        for (int row = 0; row < parkingWidth; row++) {
             String inputLine = reader.readLine();
 
-            for (int col = 0; col < parkingSize[1]; col++) {
+            for (int col = 0; col < parkinglength; col++) {
                 parkingConfig[row][col] = String.valueOf(inputLine.charAt(col));
             }
         }
