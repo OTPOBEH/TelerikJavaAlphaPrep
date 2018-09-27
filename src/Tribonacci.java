@@ -23,3 +23,5 @@ public class Tribonacci {
         System.out.println(forthNum);
     }
 }
+
+//9 / 10
