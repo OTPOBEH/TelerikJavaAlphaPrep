@@ -19,12 +19,13 @@ public class IgraSChisla {
             int currentNum = Integer.parseInt(input2[i]);
             int gcd = gcd(lonisNum, currentNum);
 
+            if (gcd == 1) continue;
+
             int result = 0;
-            for (int j = 2; j <= Math.sqrt(gcd); j++) {
+            for (int j = 2; j <= gcd; j++) {
 
                 if (gcd % j == 0) {
-                    if (gcd / j == j) result += 1;
-                    else result += 2;
+                    result++;
                 }
             }
 
@@ -37,7 +38,6 @@ public class IgraSChisla {
             }
         }
 
-        biggestScore++;
         if (winningNumbers.length() == 0) {
             System.out.println("No winners");
             return;
