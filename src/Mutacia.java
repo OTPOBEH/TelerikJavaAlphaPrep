@@ -10,7 +10,7 @@ public class Mutacia {
 
         String input = reader.readLine();
         int fatalities = 0;
-//Итерираме от зад напред и умножаваме всеки char със съответния множител според десетичната бройна система.
+
         for (int i = input.length() - 1; i >= 0; i--) {
             int beforeMutation = 0;
             int afterMutation = 0;
