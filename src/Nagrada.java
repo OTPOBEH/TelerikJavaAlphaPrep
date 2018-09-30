@@ -19,6 +19,7 @@ public class Nagrada {
             if (currentChar == '6') stars.append('*');
         }
 
-        System.out.println(isAllowed ? stars : "No");
+        if (!isAllowed || stars.length() == 0) System.out.println("No");
+        else System.out.println(stars);
     }
 }
