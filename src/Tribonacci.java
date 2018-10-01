@@ -6,22 +6,25 @@ import java.math.BigInteger;
 public class Tribonacci {
     public static void main(String[] args) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-
-        BigInteger firstNum = new BigInteger(reader.readLine());
-        BigInteger secondNum = new BigInteger(reader.readLine());
-        BigInteger thirdNum = new BigInteger(reader.readLine());
-        BigInteger forthNum = firstNum.add(secondNum).add(thirdNum);
+        BigInteger[] numbers = new BigInteger[3];
+        numbers[0] = new BigInteger(reader.readLine());
+        numbers[1] = new BigInteger(reader.readLine());
+        numbers[2] = new BigInteger(reader.readLine());
 
         int n = Integer.parseInt(reader.readLine());
 
-        for (int i = 5; i <= n; i++) {
-            firstNum = secondNum;
-            secondNum = thirdNum;
-            thirdNum = forthNum;
-            forthNum = firstNum.add(secondNum).add(thirdNum);
+        if (n < 4) {        //В случай, че ни подадат n < 4, какъвто е тест №6
+            System.out.println(numbers[n - 1]);
+            return;
+        }
+
+        BigInteger forthNum = numbers[0].add(numbers[1]).add(numbers[2]);
+
+        for (int i = 3; i < n - 1; i++) {
+            int currentIndex = i % 3;
+            numbers[currentIndex] = forthNum;
+            forthNum = numbers[0].add(numbers[1]).add(numbers[2]);
         }
         System.out.println(forthNum);
     }
 }
-
-//9 / 10
