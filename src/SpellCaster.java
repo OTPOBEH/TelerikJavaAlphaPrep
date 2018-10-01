@@ -3,13 +3,9 @@ import java.io.InputStreamReader;
 
 public class SpellCaster {
     public static void main(String[] args) throws Exception {
-
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-
         String[] magicWords = reader.readLine().split(" ");
-
         StringBuilder secondStep = FirstStep(magicWords);
-
         System.out.println(SecondStep(secondStep));
     }
 
@@ -24,7 +20,6 @@ public class SpellCaster {
                 if (currentWordLength > maxWordLength) maxWordLength = currentWordLength;
                 int currentCharIndex = (currentWordLength - 1) - indexModifier;
                 if (currentCharIndex < 0) continue;
-
                 char currentChar = magicWords[i].charAt(currentCharIndex);
                 printout.append(currentChar);
             }
@@ -38,15 +33,10 @@ public class SpellCaster {
         int length = secondStep.length();
 
         for (int i = 0; i < length; i++) {
-
             char currentChar = secondStep.charAt(i);
-
             secondStep.deleteCharAt(i);
-
             int steps = Character.toLowerCase(currentChar) - 96;
-
             int fieldToLand = (i + steps) % length;
-
             secondStep.insert(fieldToLand, currentChar);
         }
 
