@@ -8,47 +8,48 @@ public class SpellCaster {
 
         String[] magicWords = reader.readLine().split(" ");
 
-        StringBuilder resultSpell = new StringBuilder(); //Използваме StringBuilder за манипулиране на буквите
+        StringBuilder secondStep = FirstStep(magicWords);
 
-        int charIndex = 0;
+        System.out.println(SecondStep(secondStep));
+    }
 
-        int exceptionCount = 0;
+    private static StringBuilder FirstStep(String[] magicWords) {
 
-        while (exceptionCount != magicWords.length) {   //Извъртаме буквите на всяка дума, докато не излезем от всички думи с
-                                                        // с грешка(Exception).
+        int maxWordLength = 1;
 
+        StringBuilder printout = new StringBuilder();
+        for (int indexModifier = 0; indexModifier < maxWordLength; indexModifier++) {
             for (int i = 0; i < magicWords.length; i++) {
-                try {
-                    resultSpell.append(magicWords[i].charAt(magicWords[i].length() - 1 - charIndex));
-                } catch (StringIndexOutOfBoundsException e) { //Улавяме грешката и я броим.
-                    exceptionCount++;//При брой грешки равен на броя думи - излизаме от цикъла. Всички думи са обработени.
-                }
+                int currentWordLength = magicWords[i].length();
+                if (currentWordLength > maxWordLength) maxWordLength = currentWordLength;
+                int currentCharIndex = (currentWordLength - 1) - indexModifier;
+                if (currentCharIndex < 0) continue;
+
+                char currentChar = magicWords[i].charAt(currentCharIndex);
+                printout.append(currentChar);
             }
-            charIndex++; //Преместваме се на следващата буква
         }
 
-        charIndex = 0;//Нулираме индекса, за да започнем отново от начална буква
+        return printout;
+    }
 
-        while (charIndex != resultSpell.length()) {
-            int placesToShift;
-            if (resultSpell.charAt(charIndex) > 96) { //Проверяваме дали е главна или малка буква
-                placesToShift = resultSpell.charAt(charIndex) - 96; //Малка буква
-            } else placesToShift = resultSpell.charAt(charIndex) - 64; //Главна буква
+    private static StringBuilder SecondStep(StringBuilder secondStep) {
 
-            //Изчисляваме новата позиция на буквата на долния ред.
-            int newPosition = ((charIndex + placesToShift) % resultSpell.length() + resultSpell.length()) % resultSpell.length();
+        int length = secondStep.length();
 
-            char current = resultSpell.charAt(charIndex); //Запазваме си буквата
+        for (int i = 0; i < length; i++) {
 
-            //Преместваме буквата
-            resultSpell.deleteCharAt(charIndex);
-            resultSpell.insert(newPosition, current);
+            char currentChar = secondStep.charAt(i);
 
-            charIndex++; //Преместваме се на следващата буква
+            secondStep.deleteCharAt(i);
+
+            int steps = Character.toLowerCase(currentChar) - 96;
+
+            int fieldToLand = (i + steps) % length;
+
+            secondStep.insert(fieldToLand, currentChar);
         }
 
-        System.out.println(resultSpell);
+        return secondStep;
     }
 }
-
-//Spell Caster 3/10
