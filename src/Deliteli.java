@@ -8,12 +8,12 @@ public class Deliteli {
 
         String[] input = reader.readLine().split(" ");
 
-        int firstNum = Integer.parseInt(input[0]);
-        int secondNum = Integer.parseInt(input[1]);
+        long firstNum = Long.parseLong(input[0]);
+        long secondNum = Long.parseLong(input[1]);
 
         StringBuilder printout = new StringBuilder();
 
-        int gcd = GCD(firstNum, secondNum);
+        long gcd = GCD(firstNum, secondNum);
 
         if (gcd == 1) {
             System.out.println(-1);
@@ -21,20 +21,21 @@ public class Deliteli {
         }
 
         for (int i = 2; i <= gcd; i++) {
-            if (!isPrime(i)) continue;
 
-            if (gcd % i == 0) printout.append(i).append(" ");
+            if (gcd % i != 0) continue;
+
+            if (isPrime(i)) printout.append(i).append(" ");
         }
 
          System.out.print(printout);
     }
 
-    private static int GCD(int a, int b) {
+    private static long GCD(long a, long b) {
         if (b == 0) return a;
         return GCD(b, a % b);
     }
 
-    private static boolean isPrime(int n) {
+    private static boolean isPrime(long n) {
         if (n < 4) return true;
         if (n % 2 == 0) return false;
         for (int i = 3; i * i <= n; i += 2) {
