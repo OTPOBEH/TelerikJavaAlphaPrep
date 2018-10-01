@@ -27,11 +27,11 @@ public class ThreeDSlices {
         System.out.println(count);
     }
 
-    public static int CountEqualSums(long[][] cuboid, int width, int heigth, int depth) {
+    public static int CountEqualSums(long[][] cuboid, int width, int height, int depth) {
         int counter = 0;
 
         long[] sumsByD = new long[depth];
-        long[] sumsByH = new long[heigth];
+        long[] sumsByH = new long[height];
 
         int sumsByWAdded = 0;
         int sumsByHAdded = 0;
@@ -47,14 +47,14 @@ public class ThreeDSlices {
             for (int d = 0; d < depth; d++) {
 
                 for (; w < currentSlice; w++) {
-                    for (int h = 0; h < heigth; h++) {
+                    for (int h = 0; h < height; h++) {
                         sum1 += cuboid[h][w];
                         if (sumsByHAdded < depth) sumsByH[h] += cuboid[h][w];
                     }
                 }
 
                 for (w = currentSlice; w < limit; w++) {
-                    for (int h = 0; h < heigth; h++) {
+                    for (int h = 0; h < height; h++) {
                         sum2 += cuboid[h][w];
                         if (sumsByHAdded < depth) sumsByH[h] += cuboid[h][w];
                     }
@@ -90,7 +90,7 @@ public class ThreeDSlices {
             if (sum1 == sum2) counter++;
         }
 
-        for (int i = 1; i < heigth; i++) {
+        for (int i = 1; i < height; i++) {
             int firstSlice = i;
             long sum1 = 0;
             long sum2 = 0;
@@ -99,7 +99,7 @@ public class ThreeDSlices {
                 sum1 += sumsByH[j];
             }
 
-            for (int j = firstSlice; j < heigth; j++) {
+            for (int j = firstSlice; j < height; j++) {
                 sum2 += sumsByH[j];
             }
 
