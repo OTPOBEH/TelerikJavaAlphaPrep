@@ -30,10 +30,21 @@ public class HexToBin {
             currentChar++;
         }
 
-        for (int j = 0; j < input.length(); j++) {
-            char currentHexNumber = input.charAt(j);
+            char currentHexNumber = input.charAt(0);
             int valueOfHex = hexTable.get(currentHexNumber);
-            StringBuilder convert = new StringBuilder("0000");
+            StringBuilder convert = new StringBuilder();
+
+            while (valueOfHex > 0) {
+                convert = new StringBuilder().append(valueOfHex % 2).append(convert);
+                valueOfHex /= 2;
+            }
+
+            result.append(convert);
+
+        for (int j = 1; j < input.length(); j++) {
+            currentHexNumber = input.charAt(j);
+            valueOfHex = hexTable.get(currentHexNumber);
+            convert = new StringBuilder("0000");
             int digitCounter = 0;
             int currentIndex = 3;
             while (valueOfHex > 0) {
