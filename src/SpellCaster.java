@@ -5,8 +5,7 @@ public class SpellCaster {
     public static void main(String[] args) throws Exception {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         String[] magicWords = reader.readLine().split(" ");
-        StringBuilder secondStep = FirstStep(magicWords);
-        System.out.println(SecondStep(secondStep));
+        System.out.println(SecondStep(FirstStep(magicWords)));
     }
 
     private static StringBuilder FirstStep(String[] magicWords) {
