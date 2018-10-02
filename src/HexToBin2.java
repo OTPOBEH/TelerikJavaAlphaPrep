@@ -31,7 +31,7 @@ public class HexToBin2 {
         StringBuilder printout = new StringBuilder();
 
         String firstNumber = hexBinTable.get(input.charAt(0));
-        char currentChar = firstNumber.charAt(0);
+        char currentChar = hexBinTable.get(input.charAt(0)).charAt(0);
 
         int i = 0;
         while (currentChar == '0') {
