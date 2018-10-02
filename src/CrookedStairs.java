@@ -20,7 +20,7 @@ public class CrookedStairs {
 
         if (l == 2) {
             System.out.println(numbers[0]);
-            System.out.print(numbers[1]);
+            System.out.print(numbers[1] + " ");
             System.out.println(numbers[2]);
             return;
         }
