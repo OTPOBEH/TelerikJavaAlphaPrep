@@ -21,7 +21,7 @@ public class Tribonacci {
         BigInteger forthNum = numbers[0].add(numbers[1]).add(numbers[2]);
 
         for (int i = 3; i < n - 1; i++) {
-            int currentIndex = i % 3;
+            int currentIndex = i  % 3;
             numbers[currentIndex] = forthNum;
             forthNum = numbers[0].add(numbers[1]).add(numbers[2]);
         }
