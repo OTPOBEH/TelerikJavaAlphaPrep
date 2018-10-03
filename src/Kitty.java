@@ -1,90 +1,67 @@
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class Kitty {
-    public static void main(String[] args) {
-        Scanner in = new Scanner(System.in);
+    public static void main(String[] args) throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder input = new StringBuilder(reader.readLine());
+        String[] commands = reader.readLine().split(" ");
 
-        char[] path = in.nextLine().toCharArray();
+        boolean isDreadlocked = false;
 
-        String [] jumps = in.nextLine().split(" ");
+        int souls = 0;
+        int food = 0;
+        int jumps = 0;
+        int dreadolcks = 0;
 
-        KittyCat kitty = new KittyCat();
-        kitty.trapped = TrappedCheck(path, kitty);
-        int currentJump = 0;
+        int currenetCell = 0;
 
-        while (!kitty.trapped && currentJump < jumps.length) {
-
-            int fieldsToJump = Integer.parseInt(jumps[currentJump]);
-
-            Jump(path, kitty, fieldsToJump);
-
-            kitty.trapped = TrappedCheck(path, kitty);
-
-            currentJump++;
-        }
-
-        Print(kitty);
-    }
-
-    private static void Jump(char[] matrix, KittyCat kitty, int fieldsToJump) {
-
-        if (fieldsToJump == 0) return;
-
-        int fieldToLand = ((kitty.currentField + fieldsToJump) % matrix.length + matrix.length) % matrix.length;
-
-        kitty.currentField = fieldToLand;
-    }
-
-    private static boolean TrappedCheck(char[] path, KittyCat kitty) {
-        if (path[kitty.currentField] == '@') {
-            kitty.souls++;
-            path[kitty.currentField] = '0';
-        } else if (path[kitty.currentField] == '*') {
-            kitty.food++;
-            path[kitty.currentField] = '0';
-        } else if (path[kitty.currentField] == 'x') {
-
-            if (kitty.currentField % 2 == 0) {
-                if (kitty.souls == 0) return true;
-
-                path[kitty.currentField] = '@';
-                kitty.souls--;
-            } else {
-                if (kitty.food == 0) return true;
-
-                path[kitty.currentField] = '*';
-                kitty.food--;
+        for (int i = 0; i <= commands.length; i++) {
+            char currentChar = input.charAt(currenetCell);
+            if (currentChar == '@') {
+                souls++;
+                input.replace(currenetCell, currenetCell + 1, " ");
+            } else if (currentChar == '*') {
+                food++;
+                input.replace(currenetCell, currenetCell + 1, " ");
+            } else if (currentChar == 'x') {
+                if (currenetCell % 2 == 0) {
+                    if (souls == 0) {
+                        isDreadlocked = true;
+                        break;
+                    } else {
+                        souls--;
+                        input.replace(currenetCell, currenetCell + 1, "@");
+                        dreadolcks++;
+                    }
+                } else {
+                    if (food == 0) {
+                        isDreadlocked = true;
+                        break;
+                    } else {
+                        food--;
+                        input.replace(currenetCell, currenetCell + 1, "*");
+                        dreadolcks++;
+                    }
+                }
             }
+            jumps++;
 
-            kitty.deadlocks++;
+            if (i == commands.length) break;
+            int currentJump = Integer.parseInt(commands[i]);
+            currenetCell = ((currenetCell + currentJump) % input.length() + input.length()) % input.length();
         }
-        kitty.jumps++;
-        return false;
-    }
 
-    private static void Print(KittyCat kitty) {
-        StringBuilder output = new StringBuilder();
-        if (!kitty.trapped) {
-            output.append("Coder souls collected: ").append(kitty.souls).append("\n")
-                            .append("Food collected: ").append(kitty.food).append("\n")
-                            .append("Deadlocks: ").append(kitty.deadlocks).append("\n");
+        StringBuilder printout = new StringBuilder();
+        if (isDreadlocked) {
+            printout.append("You are deadlocked, you greedy kitty!\n");
+            printout.append("Jumps before deadlock: ").append(jumps);
         } else {
-
-            output.append("You are deadlocked, you greedy kitty!\n").append("Jumps before deadlock: ")
-                            .append(kitty.jumps);
+            printout.append("Coder souls collected: ").append(souls).append("\n");
+            printout.append("Food collected: ").append(food).append("\n");
+            printout.append("Deadlocks: ").append(dreadolcks);
         }
-        System.out.println(output);
+        System.out.print(printout);
     }
-}
-
-class KittyCat {
-    KittyCat() {
-    }
-
-    int currentField = 0;
-    int food = 0;
-    int souls = 0;
-    int deadlocks = 0;
-    int jumps = 0;
-    boolean trapped = false;
 }
