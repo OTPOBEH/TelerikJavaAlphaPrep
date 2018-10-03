@@ -6,8 +6,8 @@ public class Hops {
     public static void main(String[] args) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
-        String[] fieldInput = reader.readLine().split(", ");
-        int sequenceCount = Integer.parseInt(reader.readLine());
+        final String[] fieldInput = reader.readLine().split(", ");
+        final int sequenceCount = Integer.parseInt(reader.readLine());
 
         long maxCarrots = Integer.parseInt(fieldInput[0]);
 
@@ -18,9 +18,10 @@ public class Hops {
             int currentFieldIndex = 0;
             visitedRows[currentFieldIndex] = 1;
             long currentCarrots = Integer.parseInt(fieldInput[0]);
-            int iterator = 0;
+            int j = 0;
             while (true) {
-                int j = iterator % directionSetInput.length;
+                if (j == directionSetInput.length) j = 0;
+
                 int currentJump = Integer.parseInt(directionSetInput[j]);
                 currentFieldIndex += currentJump;
 
@@ -30,7 +31,7 @@ public class Hops {
                 int currentFieldCarrots = Integer.parseInt(fieldInput[currentFieldIndex]);
                 currentCarrots += currentFieldCarrots;
                 visitedRows[currentFieldIndex] = 1;
-                iterator++;
+                j++;
             }
             if (currentCarrots > maxCarrots)
                 maxCarrots = currentCarrots;
