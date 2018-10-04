@@ -1,8 +1,6 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.LinkedList;
+import java.util.ArrayList;
 
 public class Circle {
     public static void main(String[] args) throws Exception {
@@ -16,8 +14,7 @@ public class Circle {
 
         int[] numbers = new int[participantsCount];
 
-        LinkedList<Integer> circle = new LinkedList<>();
-
+        ArrayList<Integer> circle = new ArrayList<>();
         for (int i = 0; i < participantsCount; i++) {
             numbers[i] = Integer.parseInt(reader.readLine());
             circle.add(i);
