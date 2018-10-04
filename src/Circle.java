@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.LinkedList;
 
 public class Circle {
@@ -8,32 +9,26 @@ public class Circle {
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
-        int[] teacherInput = Arrays.stream(reader.readLine().split(" "))
-                .mapToInt(Integer::parseInt)
-                .toArray();
+        String[] teacherInput = reader.readLine().split(" ");
 
-        int numberOfStudents = teacherInput[0];
-        int currentJump = teacherInput[1];
-        int currentStudentIndex = 0;
+        int participantsCount = Integer.parseInt(teacherInput[0]);
+        int currentIndex = Integer.parseInt(teacherInput[1]) - 1;
 
+        int[] numbers = new int[participantsCount];
 
-        LinkedList<Integer> students = new LinkedList<>();
-        int[] numbersInMind = new int[numberOfStudents];
+        LinkedList<Integer> circle = new LinkedList<>();
 
-        for (int i = 0; i < numberOfStudents; i++) {
-            students.add(i);
-            int k = Integer.parseInt(reader.readLine());
-            numbersInMind[i] = k;
+        for (int i = 0; i < participantsCount; i++) {
+            numbers[i] = Integer.parseInt(reader.readLine());
+            circle.add(i);
         }
 
-        while (students.size() > 1) {
-            currentStudentIndex = (currentStudentIndex + currentJump - 1) % students.size();
-            currentJump = numbersInMind[currentStudentIndex];
-            students.remove(currentStudentIndex);
+        while (circle.size() != 1) {
+            int steps = numbers[circle.get(currentIndex)];
+            circle.remove(currentIndex);
+            currentIndex = (currentIndex + steps - 1) % circle.size();
         }
 
-        System.out.println(students.get(0) + 1);
-
+        System.out.println(circle.get(0) + 1);
     }
 }
-//0/10
