@@ -27,7 +27,6 @@ public class SequenceInMatrix {
         }
 
         System.out.println(maxSequence);
-
     }
 
     private static int checkHor(String[][] matrix, int row, int col) {
