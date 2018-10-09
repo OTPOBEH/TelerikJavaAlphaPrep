@@ -11,70 +11,78 @@ public class CokisProducts {
 
         int productCount = Integer.parseInt(reader.readLine());
 
-        for (int product = 0; product < productCount; product++) {
-
-            String currentProdInput = reader.readLine();
-
+        for (int i = 0; i < productCount; i++) {
             StringBuilder temp = new StringBuilder();
+            String productPriceInput = reader.readLine();
+            int j = productPriceInput.length() - 1;
+            char current = productPriceInput.charAt(j);
 
-            int index = 0;
-            char current = currentProdInput.charAt(index);
-
-            while (!Character.isDigit(current)) {
+            while (Character.isDigit(current) || current == '.') {
                 temp.append(current);
-                index++;
-                current = currentProdInput.charAt(index);
+                j--;
+                current = productPriceInput.charAt(j);
             }
 
-            temp.setLength(temp.length() - 1);
-            String productName = temp.toString();
+            double price = Double.parseDouble(temp.reverse().toString());
 
             temp = new StringBuilder();
-
-            while (index < currentProdInput.length()) {
-                current = currentProdInput.charAt(index);
-                temp.append(current);
-                index++;
+            j--;
+            for (; j >= 0; j--) {
+                temp.append(productPriceInput.charAt(j));
             }
 
-            double price = Double.parseDouble(temp.toString());
-            prices.put(productName, price);
+            String itemName = temp.reverse().toString();
+
+            prices.put(itemName, price);
+
         }
 
-        int listCount = Integer.parseInt(reader.readLine());
+        int invoices = Integer.parseInt(reader.readLine());
 
-        for (int i = 0; i < listCount; i++) {
 
-            String[] currentListInput = reader.readLine().split(", ");
+        for (int i = 0; i < invoices; i++) {
             double total = 0;
+            String[] invoiceInput = reader.readLine().split(", ");
 
-            for (int j = 0; j < currentListInput.length; j++) {
-                int quantity = 1;
-                int index = 0;
-                String currentProductInput = currentListInput[j];
-                char currentChar = currentProductInput.charAt(index);
-                int modifier = 1;
-                while (Character.isDigit(currentChar)) {
-                    quantity *= (currentChar - '0') * modifier;
-                    index++;
-                    currentChar = currentProductInput.charAt(index);
-                    modifier *= 10;
+            for (int j = 0; j < invoiceInput.length; j++) {
+                if (prices.containsKey(invoiceInput[j])) total += prices.get(invoiceInput[j]);
+                else {
+                    StringBuilder temp = new StringBuilder();
+
+                    int charAt = 0;
+                    char current = invoiceInput[j].charAt(charAt);
+                    while (Character.isDigit(current)) {
+                        temp.append(current);
+                        charAt++;
+                        current = invoiceInput[j].charAt(charAt);
+                    }
+
+                    int quantity = Integer.parseInt(temp.toString());
+
+                    charAt++;
+                    String itemName = invoiceInput[j].substring(charAt);
+                    double currentPrice = (prices.get(itemName)) * quantity;
+                    total += currentPrice;
                 }
-
-                StringBuilder temp = new StringBuilder();
-
-                if (currentProductInput.charAt(index) == ' ') index++;
-
-                for (int k = index; k < currentProductInput.length(); k++) {
-                    temp.append(currentProductInput.charAt(k));
-                }
-
-                String productName = temp.toString();
-                double price = prices.get(productName);
-
-                total += (price * quantity);
             }
             System.out.printf("%.2f\n", total);
         }
     }
 }
+
+
+
+/*
+5
+milk 1.2
+orange juice 2.9
+icecream 2
+cake 5.1
+beer 1.2
+5
+2 beer, 3 orange juice
+milk, cake
+icecream, 2 cake
+icecream, icecream, 3 icecream
+5 orange juice, 3 orange juice, orange juice, orange juice
+*/
