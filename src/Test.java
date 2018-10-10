@@ -1,32 +1,21 @@
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class Test {
-    public static void main(String[] args) throws Exception {
-
+    public static void main(String args[]) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        String[] input = reader.readLine().split(" ");
 
-        int n = Integer.parseInt(reader.readLine());
+        StringBuilder[] numbersByReminder3 = new StringBuilder[]{new StringBuilder(), new StringBuilder(), new StringBuilder()};
 
-        System.out.println(fib(n));
-    }
-    static int fib(int n)
-    {
-        /* Declare an array to store Fibonacci numbers. */
-        int f[] = new int[n+2]; // 1 extra to handle case, n = 0
-        int i;
-
-        /* 0th and 1st number of the series are 0 and 1*/
-        f[0] = 0;
-        f[1] = 1;
-
-        for (i = 2; i <= n; i++)
-        {
-       /* Add the previous 2 numbers in the series
-         and store it */
-            f[i] = f[i-1] + f[i-2];
+        for (int i = 0; i < input.length; i++) {
+            int current = Integer.parseInt(input[i]);
+            numbersByReminder3[current % 3].append(current).append(" ");
         }
 
-        return f[n];
+        System.out.println(numbersByReminder3[0]);
+        System.out.println(numbersByReminder3[1]);
+        System.out.println(numbersByReminder3[2]);
     }
 }
