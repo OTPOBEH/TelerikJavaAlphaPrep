@@ -5,73 +5,51 @@ import java.io.InputStreamReader;
 public class GolemiChisla {
     public static void main(String[] args) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        String someNumber = reader.readLine();
+        String input = reader.readLine();
 
-        String cardCount = reader.readLine();
+        String biggest = longestPalindromeString(input);
 
-        String str = reader.readLine().replaceAll("\\s+","");
-
-        int n = str.length();   // get length of input string
-
-        // table[i][j] will be false if substring str[i..j]
-        // is not palindrome.
-        // Else table[i][j] will be true
-        boolean table[][] = new boolean[n][n];
-
-        // All substrings of length 1 are palindromes
-        int maxLength = 1;
-        for (int i = 0; i < n; ++i)
-            table[i][i] = true;
-
-        // check for sub-string of length 2.
-        int start = 0;
-
-        for (int i = 0; i < n - 1; ++i) {
-            if (str.charAt(i) == str.charAt(i + 1)) {
-                table[i][i + 1] = true;
-                start = i;
-                maxLength = 2;
-            }
-        }
-
-        // Check for lengths greater than 2. k is length
-        // of substring
-        for (int k = 3; k <= n; ++k) {
-
-            // Fix the starting index
-            for (int i = 0; i < n - k + 1; ++i) {
-                // Get the ending index of substring from
-                // starting index i and length k
-                int j = i + k - 1;
-
-                // checking for sub-string from ith index to
-                // jth index iff str.charAt(i+1) to
-                // str.charAt(j-1) is a palindrome
-                if (table[i + 1][j - 1] && str.charAt(i) ==
-                        str.charAt(j)) {
-                    table[i][j] = true;
-
-                    if (k > maxLength) {
-                        start = i;
-                        maxLength = k;
-                    }
-                }
-            }
-        }
-
-        printSubStrInt(str, start, start + maxLength - 1);
+        System.out.println(biggest);
     }
 
-    private static void printSubStrInt(String str, int low, int high) {
-        String resultAsString = str.substring(low, high + 1);
-        StringBuilder resultNoTrailingZeroes = new StringBuilder();
-
-        int zeroesLastIndex = 0;
-
-        while(resultAsString.charAt(zeroesLastIndex) == '0') zeroesLastIndex++;
-
-        for (int i = zeroesLastIndex; i < resultAsString.length() - zeroesLastIndex; i++) {
-            resultNoTrailingZeroes.append(resultAsString.charAt(i));
+    static private String intermediatePalindrome(String s, int left, int right) {
+        if (left > right) return null;
+        while (left >= 0 && right < s.length()
+                && s.charAt(left) == s.charAt(right) && s.charAt(left) != 0) {
+            left--;
+            while (left >= 0 && s.charAt(left) == ' ') left--;
+            right++;
+            while (right < s.length() && s.charAt(right) == ' ') right++;
         }
-        System.out.println(resultNoTrailingZeroes);
+
+        return s.substring(left + 1, right);
+    }
+
+    // O(n^2)
+    private static String longestPalindromeString(String s) {
+        if (s == null) return null;
+        String longest = s.substring(0, 1);
+        for (int i = 0; i < s.length() - 1; i++) {
+            //odd cases like 121
+            String palindromeInterm = intermediatePalindrome(s, i, i);
+            String palindrome = palindromeInterm.replaceAll(" ", "");
+
+            if (palindrome.length() > longest.length()) {
+                longest = palindrome;
+            } else if (palindrome.length() == longest.length() && palindrome.compareTo(longest) > 0) {
+                longest = palindrome;
+            }
+            //even cases like 1221
+            palindromeInterm = intermediatePalindrome(s, i, i + 1);
+            palindrome = palindromeInterm.replaceAll(" ", "");
+
+            if (palindrome.length() > longest.length()) {
+                longest = palindrome;
+            } else if (palindrome.length() == longest.length() && palindrome.compareTo(longest) > 0) {
+                longest = palindrome;
+            }
+        }
+        return longest;
     }
 }

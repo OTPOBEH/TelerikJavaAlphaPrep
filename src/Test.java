@@ -1,21 +1,45 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 public class Test {
     public static void main(String args[]) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        String[] input = reader.readLine().split(" ");
 
-        StringBuilder[] numbersByReminder3 = new StringBuilder[]{new StringBuilder(), new StringBuilder(), new StringBuilder()};
+        String elements = reader.readLine();
 
-        for (int i = 0; i < input.length; i++) {
-            int current = Integer.parseInt(input[i]);
-            numbersByReminder3[current % 3].append(current).append(" ");
+        String[] arrayInput = reader.readLine().split(" ");
+        boolean[] visited = new boolean[arrayInput.length];
+        visited[0] = true;
+
+        int nextIndex = Integer.parseInt(arrayInput[0]);
+
+        ArrayList<Integer> visitingSequence = new ArrayList<>();
+        visitingSequence.add(0);
+
+        StringBuilder printout = new StringBuilder().append(0);
+
+        while (nextIndex >= 0 && nextIndex < arrayInput.length) {
+            if (visited[nextIndex] == true) {
+                printout = new StringBuilder();
+
+                for (int i = 0; i < visitingSequence.size(); i++) {
+                    if (i == visitingSequence.indexOf(nextIndex)) {
+                        printout.append('(').append(visitingSequence.get(i));
+                    }
+                    else if (i != 0) printout.append(" ").append(visitingSequence.get(i));
+                    else printout.append(visitingSequence.get(i));
+                }
+                printout.append(')');
+                break;
+            }
+            visited[nextIndex] = true;
+            visitingSequence.add(nextIndex);
+            printout.append(" ").append(nextIndex);
+            nextIndex = Integer.parseInt(arrayInput[nextIndex]);
         }
 
-        System.out.println(numbersByReminder3[0]);
-        System.out.println(numbersByReminder3[1]);
-        System.out.println(numbersByReminder3[2]);
+        System.out.println(printout);
     }
 }

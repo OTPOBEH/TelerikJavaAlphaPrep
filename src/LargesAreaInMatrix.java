@@ -12,7 +12,7 @@ public class LargesAreaInMatrix {
         int cols = customReader.readInt();
 
         int[][] matrix = new int[rows][cols];
-        byte[][] tracing = new byte[rows][cols];
+        boolean[][] visited = new boolean[rows][cols];
 
         for (int i = 0; i < rows; i++) {
 
@@ -25,21 +25,21 @@ public class LargesAreaInMatrix {
 
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix[0].length; j++) {
-                if (tracing[i][j] == 1) continue;
-                int currentCounter = DepthFirstSearch(matrix, tracing, i, j);
+                if (visited[i][j]) continue;
+                int currentCounter = DepthFirstSearch(matrix, visited, i, j);
                 if (currentCounter > maxCounter) maxCounter = currentCounter;
             }
         }
         System.out.println(maxCounter);
     }
 
-    private static int DepthFirstSearch(int[][] matrix, byte[][] tracing, int startRow, int startCol) {
+    private static int DepthFirstSearch(int[][] matrix, boolean[][] visited, int startRow, int startCol) {
         int counter = 1;
 
         int matrixRows = matrix.length;
         int matrixCols = matrix[0].length;
 
-        tracing[startRow][startCol] = 1;
+        visited[startRow][startCol] = true;
 
         int[] directionCheckRow = new int[]{0, 0, -1, 1};
         int[] directionCheckCol = new int[]{-1, 1, 0, 0};
@@ -59,54 +59,61 @@ public class LargesAreaInMatrix {
             int rowToCheck = currentRow + directionCheckRow[0];
             int colToCheck = currentCol + directionCheckCol[0];
 
-            if (colToCheck >= 0 && matrix[rowToCheck][colToCheck] == valueToTrace && tracing[rowToCheck][colToCheck] != 1) {
-                rowStatus.push(rowToCheck);
-                colStatus.push(colToCheck);
+            if (colToCheck >= 0)
+                if (matrix[rowToCheck][colToCheck] == valueToTrace && !visited[rowToCheck][colToCheck]) {
+                    rowStatus.push(rowToCheck);
+                    colStatus.push(colToCheck);
 
-                tracing[rowToCheck][colToCheck] = 1;
-                counter++;
+                    visited[rowToCheck][colToCheck] = true;
+                    counter++;
 
-                continue;
-            }
+                    continue;
+                }
 
             rowToCheck = currentRow + directionCheckRow[1];
             colToCheck = currentCol + directionCheckCol[1];
 
-            if (colToCheck < matrixCols && matrix[rowToCheck][colToCheck] == valueToTrace && tracing[rowToCheck][colToCheck] != 1) {
-                rowStatus.push(rowToCheck);
-                colStatus.push(colToCheck);
+            if (colToCheck < matrixCols)
+                if (matrix[rowToCheck][colToCheck] == valueToTrace && !visited[rowToCheck][colToCheck]) {
+                    rowStatus.push(rowToCheck);
+                    colStatus.push(colToCheck);
 
-                tracing[rowToCheck][colToCheck] = 1;
-                counter++;
+                    visited[rowToCheck][colToCheck] = true;
 
-                continue;
-            }
+                    counter++;
+
+                    continue;
+                }
 
             rowToCheck = currentRow + directionCheckRow[2];
             colToCheck = currentCol + directionCheckCol[2];
 
-            if (rowToCheck >= 0 && matrix[rowToCheck][colToCheck] == valueToTrace && tracing[rowToCheck][colToCheck] != 1) {
-                rowStatus.push(rowToCheck);
-                colStatus.push(colToCheck);
+            if (rowToCheck >= 0)
+                if (matrix[rowToCheck][colToCheck] == valueToTrace && !visited[rowToCheck][colToCheck]) {
+                    rowStatus.push(rowToCheck);
+                    colStatus.push(colToCheck);
 
-                tracing[rowToCheck][colToCheck] = 1;
-                counter++;
+                    visited[rowToCheck][colToCheck] = true;
 
-                continue;
-            }
+                    counter++;
+
+                    continue;
+                }
 
             rowToCheck = currentRow + directionCheckRow[3];
             colToCheck = currentCol + directionCheckCol[3];
 
-            if (rowToCheck < matrixRows && matrix[rowToCheck][colToCheck] == valueToTrace && tracing[rowToCheck][colToCheck] != 1) {
-                rowStatus.push(rowToCheck);
-                colStatus.push(colToCheck);
+            if (rowToCheck < matrixRows)
+                if (matrix[rowToCheck][colToCheck] == valueToTrace && !visited[rowToCheck][colToCheck]) {
+                    rowStatus.push(rowToCheck);
+                    colStatus.push(colToCheck);
 
-                tracing[rowToCheck][colToCheck] = 1;
-                counter++;
+                    visited[rowToCheck][colToCheck] = true;
 
-                continue;
-            }
+                    counter++;
+
+                    continue;
+                }
 
             rowStatus.pop();
             colStatus.pop();
