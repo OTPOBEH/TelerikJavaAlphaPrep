@@ -2,69 +2,45 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 
 public class Indices {
     public static void main(String[] args) throws IOException {
-
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        reader.readLine();
 
-        HashMap<Integer, Integer> passedFields = new HashMap<>();
+        String elements = reader.readLine();
 
-        StringBuilder result = new StringBuilder();
+        String[] arrayInput = reader.readLine().split(" ");
+        boolean[] visited = new boolean[arrayInput.length];
+        visited[0] = true;
 
+        int nextIndex = Integer.parseInt(arrayInput[0]);
 
-        String[] arrInput = reader.readLine().split(" ");
+        ArrayList<Integer> visitingSequence = new ArrayList<>();
+        visitingSequence.add(0);
 
-        ArrayList<Integer> path = new ArrayList<>();
-        path.add(0);
-        passedFields.put(0, 0);
+        StringBuilder printout = new StringBuilder().append(0);
 
-        boolean cycleDetected = false;
-        int step = 1;
+        while (nextIndex >= 0 && nextIndex < arrayInput.length) {
+            if (visited[nextIndex] == true) {
+                printout = new StringBuilder();
 
-        int currentIndex = 0;
-        int indexBeforCycle = 0;
-
-        while (passedFields.size() < arrInput.length) {
-            currentIndex = Integer.parseInt(arrInput[currentIndex]);
-            if (currentIndex >= arrInput.length || currentIndex < 0) break;
-
-            if (passedFields.containsKey(currentIndex)) {
-                cycleDetected = true;
-                indexBeforCycle = passedFields.get(currentIndex);
+                for (int i = 0; i < visitingSequence.size(); i++) {
+                    if (i == visitingSequence.indexOf(nextIndex)) {
+                        printout.append('(').append(visitingSequence.get(i));
+                    }
+                    else if (i != 0) printout.append(" ").append(visitingSequence.get(i));
+                    else printout.append(visitingSequence.get(i));
+                }
+                printout.append(')');
                 break;
             }
-
-            path.add(currentIndex);
-            passedFields.put(currentIndex, step);
-            step++;
+            visited[nextIndex] = true;
+            visitingSequence.add(nextIndex);
+            printout.append(" ").append(nextIndex);
+            nextIndex = Integer.parseInt(arrayInput[nextIndex]);
         }
 
-
-        if (cycleDetected) {
-            for (int i = 0; i < indexBeforCycle; i++) {
-                result.append(path.get(i)).append(" ");
-            }
-            result.setLength(Math.max(result.length() - 1, 0));
-            result.append("(");
-
-            for (int i = indexBeforCycle; i < path.size(); i++) {
-                result.append(path.get(i)).append(" ");
-            }
-
-            result.setLength(result.length() - 1);
-
-            result.append(")\n");
-        } else {
-            for (int i = 0; i < path.size(); i++) {
-                result.append(path.get(i)).append(" ");
-            }
-        }
-
-        System.out.println(result);
+        System.out.println(printout);
     }
 }
 //Indices 8/10
