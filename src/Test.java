@@ -1,45 +1,61 @@
+import org.jetbrains.annotations.NotNull;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 
 public class Test {
     public static void main(String args[]) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
-        String elements = reader.readLine();
+        String word = reader.readLine();
 
-        String[] arrayInput = reader.readLine().split(" ");
-        boolean[] visited = new boolean[arrayInput.length];
-        visited[0] = true;
+        if (isConstant(word)) System.out.println("constant");
+        else if (isField(word)) System.out.println("field");
+        else if (isPascal(word)) System.out.println("pascal");
+        else if (isElephant(word)) System.out.println("elephant");
+        else System.out.println("mismatch");
+    }
 
-        int nextIndex = Integer.parseInt(arrayInput[0]);
+    private static boolean isConstant(@NotNull String word) {
+        // all letters are capital, i.e. “USA”. Only letters are used.
+        for (int i = 0; i < word.length(); i++) {
+            if (!Character.isLetter(word.charAt(i)) || !Character.isUpperCase(word.charAt(i))) return false;
+        }
+        return true;
+    }
 
-        ArrayList<Integer> visitingSequence = new ArrayList<>();
-        visitingSequence.add(0);
+    private static boolean isField(@NotNull String word) {
+        //all letters are lower. i.e. “bambi”. Only letters are used.
+        for (int i = 0; i < word.length(); i++) {
+            if (!Character.isLetter(word.charAt(i)) || Character.isUpperCase(word.charAt(i))) return false;
+        }
+        return true;
+    }
 
-        StringBuilder printout = new StringBuilder().append(0);
+    private static boolean isPascal(@NotNull String word) {
+        //starts with capital letter and has only lower-case letters after that, i.e. “Mind”. Only letters are used.
+        if (word.length() == 1) return false;
+        if (!Character.isLetter(word.charAt(0)) || !Character.isUpperCase(word.charAt(0))) return false;
 
-        while (nextIndex >= 0 && nextIndex < arrayInput.length) {
-            if (visited[nextIndex] == true) {
-                printout = new StringBuilder();
+        for (int i = 1; i < word.length(); i++) {
+            if (!Character.isLetter(word.charAt(i)) || Character.isUpperCase(word.charAt(i))) return false;
+        }
+        return true;
+    }
 
-                for (int i = 0; i < visitingSequence.size(); i++) {
-                    if (i == visitingSequence.indexOf(nextIndex)) {
-                        printout.append('(').append(visitingSequence.get(i));
-                    }
-                    else if (i != 0) printout.append(" ").append(visitingSequence.get(i));
-                    else printout.append(visitingSequence.get(i));
-                }
-                printout.append(')');
-                break;
-            }
-            visited[nextIndex] = true;
-            visitingSequence.add(nextIndex);
-            printout.append(" ").append(nextIndex);
-            nextIndex = Integer.parseInt(arrayInput[nextIndex]);
+    private static boolean isElephant(@NotNull String word) {
+        if (word.length() == 1) return false;
+        if (!Character.isLetter(word.charAt(0)) || Character.isUpperCase(word.charAt(0))) return false;
+
+        int index = 1;
+        while (Character.isLowerCase(word.charAt(index))) {
+            index++;
         }
 
-        System.out.println(printout);
+        for (int i = index; i < word.length(); i++) {
+            if (!Character.isLetter(word.charAt(i)) || !Character.isUpperCase(word.charAt(i))) return false;
+        }
+        return true;
     }
 }
