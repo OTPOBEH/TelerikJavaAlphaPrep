@@ -1,64 +1,72 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 public class Bounce {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
+        String[] sizeInput = reader.readLine().split(" ");
 
-        long[][] matrix = MatrixCreate(3,4);
+        final int rows = Integer.parseInt(sizeInput[0]);
+        final int cols = Integer.parseInt(sizeInput[1]);
 
-        System.out.println();
+        if (cols == 1 || rows == 1) {
+            System.out.println(1);
+            return;
+        }
 
+        long[][] matrix = new long[rows][cols];
 
+        long initialValue = 1;
 
-    }
+        for (int i = 0; i < matrix.length; i++) {
+            matrix[i][0] = initialValue;
+            for (int j = 1; j < matrix[0].length; j++) {
+                matrix[i][j] = matrix[i][j - 1] * 2;
+            }
+            initialValue *= 2;
+        }
 
-private static long Bouncing(long [][]matrix){
-        int currentX = 0;
-        int currentY = 0;
+        int currentRow = 1;
+        int currentCol = 1;
 
+        int modifierCol = 1;
+        int modifierRow = 1;
+        long sum = matrix[0][0];
 
+        while(!isAtEdge(matrix, currentRow, currentCol)){
+            sum += matrix[currentRow][currentCol];
 
+            currentRow += modifierRow;
+            currentCol += modifierCol;
 
-
-    while ((currentX != 0 && currentY != matrix.length - 1) &&
-            (currentX != matrix[0].length - 1 && currentY != 0) &&
-            (currentX != matrix[0].length - 1 && currentY != matrix.length - 1)){
-
-
-        //Down Right Direction
-
-        int nextX = Math.min(matrix[0].length,currentX + matrix.length);
-        int nextY = Math.min(matrix.length, currentX + matrix[0].length);
-
-
-
-return 0;
-    }
-
-
-
-
-    return 0;
-
-
-
-
-
-
-
-
-}
-
-
-
-    private static long[][] MatrixCreate(int rows, int cols) {
-        long matrix[][] = new long[rows][cols];
-
-        for (int row = 0; row < rows; row++) {
-            matrix[row][0] = (long) Math.pow(2, row);
-            for (int col = 1; col < cols; col++) {
-                matrix[row][col] = matrix[row][col - 1] * 2;
+            if(currentRow == matrix.length){            //Bottom end
+                modifierRow = -1;
+                currentRow -= 2;
+            }
+            else if (currentRow < 0) {                  //Top end
+                modifierRow = 1;
+                currentRow += 2;
+            }
+            else if (currentCol == matrix[0].length) {  //Right end
+                modifierCol = -1;
+                currentCol -= 2;
+            }
+            else if(currentCol < 0) {                   //Left end
+                modifierCol = 1;
+                currentCol += 2;
             }
         }
 
-        return matrix;
+        sum += matrix[currentRow][currentCol];//Finally adding last element
+
+        System.out.println(sum);
+    }
+
+    private static boolean isAtEdge(long[][] matrix, int currentRow, int currentCol) {
+        int cols = matrix[0].length;
+        int rows = matrix.length;
+        return ((currentRow == 0 || currentRow == rows - 1)) && (currentCol == 0 || currentCol == cols - 1);
     }
 }
