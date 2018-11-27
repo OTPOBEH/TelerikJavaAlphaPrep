@@ -1,102 +1,53 @@
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.InputMismatchException;
+import java.io.InputStreamReader;
 
 public class ZigZag {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
-        InputReader customReader = new InputReader();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
-        int rows = customReader.readInt();
-        int cols = customReader.readInt();
-        int sum = 0;
-        int curRow = 0;
+        String[] inputSize = reader.readLine().split(" ");
 
-        boolean colsEven = cols % 2 == 0;
-        int coeff = (cols + 1) / 2;
+        final int rows = Integer.parseInt(inputSize[0]);
+        final int cols = Integer.parseInt(inputSize[1]);
 
-        int lastSum;
+        long sum = 0;
 
-        sum += (coeff - 1) * coeff * 3 +
-                coeff;
-        curRow++;
-        while (curRow != rows) {
-            lastSum = coeff * curRow * 3 +
-                    coeff * coeff * 3 +
-                    coeff;
-            sum += lastSum;
-            curRow++;
-            if (curRow == rows) break;
-            int correction = 0;
+        //Adding the first row
+        for (int col = 0; col < cols; col += 2) {
+            int current = col * 3 + 1;
+            sum += current;
+        }
 
-            if (!colsEven) correction = curRow * 3 + (cols / 2 * 2 - 2) * 3 + 1;
-            sum += (lastSum - correction);
+        //Adding the last row
+        for (int col = (rows - 1) % 2; col < cols; col += 2) {
+            int current = (rows - 1 + col) * 3 + 1;
+            sum += current;
+        }
 
-            lastSum = coeff * curRow * 3 +
-                    (coeff - 1) * coeff * 3 +
-                    coeff;
-            sum += lastSum;
-            curRow++;
-            if (curRow == rows) break;
-            correction = 0;
-            if (colsEven) correction = curRow * 3 + (cols / 2 * 2 - 1) * 3 + 1;
-            sum += (lastSum - correction);
+        //Adding last column
+        for (int row = cols % 2; row < rows - 2; row += 2) {
+            int current = (row + cols) * 3 + 1;
+            sum += current;
+        }
+
+        int startColModifier = -1;
+        int startCol = 1;
+        for (int row = 1; row < rows - 1; row++) {
+
+            //Adding first cell
+            if (row % 2 == 0) sum += row * 3 + 1;
+
+            //Adding middle cells after first row up to last row, exclusive
+            for (int col = startCol; col < cols - 1; col += 2) {
+                int current = ((row + col) * 3 + 1);
+                sum += 2 * current;
+            }
+            startColModifier *= -1;
+            startCol += startColModifier;
         }
 
         System.out.println(sum);
     }
-
-    public static class InputReader {
-        private InputStream stream;
-        private byte[] buf = new byte[1024];
-        private int curChar;
-        private int numChars;
-
-        InputReader() {
-            this.stream = System.in;
-        }
-
-        private int read() {
-            if (numChars == -1)
-                throw new InputMismatchException();
-            if (curChar >= numChars) {
-                curChar = 0;
-                try {
-                    numChars = stream.read(buf);
-                } catch (IOException e) {
-                    throw new InputMismatchException();
-                }
-                if (numChars <= 0)
-                    return -1;
-            }
-            return buf[curChar++];
-        }
-
-        int readInt() {
-            int c = read();
-            while (isSpaceChar(c)) {
-                c = read();
-            }
-            int sgn = 1;
-            if (c == '-') {
-                sgn = -1;
-                c = read();
-            }
-            int res = 0;
-            do {
-                if (c < '0' || c > '9') {
-                    throw new InputMismatchException();
-                }
-                res *= 10;
-                res += c - '0';
-                c = read();
-            } while (!isSpaceChar(c));
-            return res * sgn;
-        }
-
-        boolean isSpaceChar(int c) {
-            return c == ' ' || c == '\n' || c == '\r' || c == '\t' || c == -1;
-        }
-    }
 }
-//Not Solved 0/30!!!
