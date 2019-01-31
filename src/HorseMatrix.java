@@ -98,7 +98,6 @@ public class HorseMatrix {
         int row;
         int distance;
 
-
         Node(int col, int row) {
             this.col = col;
             this.row = row;
