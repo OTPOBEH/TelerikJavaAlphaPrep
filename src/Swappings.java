@@ -1,69 +1,91 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Swappings {
     public static void main(String[] args) throws IOException {
-
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
-        final int size = Integer.parseInt(reader.readLine());
+        int size = Integer.parseInt(reader.readLine());
 
-        int[] arr = new int[size];
+        if (size == 1) System.out.println(1);
 
-        for (int i = 0; i < arr.length; i++) {
-            arr[i] = i + 1;
+        Node[] indices = new Node[size + 1]; //Puting an index on each Node
+
+        Node head = new Node(1, null);
+        Node current = head;
+        indices[1] = head;
+
+        for (int i = 2; i < size; i++) {
+            current.next = new Node(i, current);
+            current = current.next;
+            indices[i] = current;
         }
 
-        String[] input = reader.readLine().split(" ");
+        Node tail = new Node(size, current);
+        indices[size] = tail;
+        current.next = tail;
 
-        for (int i = 0; i < input.length; i++) {
-            int currentNumber = Integer.parseInt(input[i]);
+        String[] inputLimitNumbers = reader.readLine().split(" ");//Четене на разделителите
 
-            int currentIndex = 0;
+        for (int i = 0; i < inputLimitNumbers.length; i++) {
 
-            for (int j = 1; j < arr.length; j++) {
-                if (arr[j] == currentNumber) {
-                    currentIndex = j;
-                    break;
-                }
-            }
+            int limitNodeValue = Integer.parseInt(inputLimitNumbers[i]);
+            Node limitNode = indices[limitNodeValue];
 
-            // Case: swap limit is at beginning
-            if (currentIndex == 0) {
-                int temp = arr[0];
-                System.arraycopy(arr, 1, arr, 0, arr.length - 1);
-                arr[arr.length - 1] = temp;
+            if (tail == limitNode) {
+                tail = limitNode.prev;
+                tail.next = null;
+
+                limitNode.next = head;
+                head.prev = limitNode;
+                head = limitNode;
                 continue;
             }
 
-            //Case swap limit is at the end
-            if (currentIndex == arr.length - 1) {
-                int temp = arr[arr.length - 1];
-                System.arraycopy(arr, 0, arr, 1, arr.length - 1);
-                arr[0] = temp;
+            if (head == limitNode) {
+                head = limitNode.next;
+
+                limitNode.prev = tail;
+                tail.next = limitNode;
+                tail = limitNode;
+                tail.next = null;
                 continue;
             }
 
-            int[] arrTemp = new int[arr.length];
+            Node newHead = limitNode.next;
+            head.prev = limitNode;
+            limitNode.next = head;
+            head = newHead;
+            head.prev = null;
 
-            int newIndexOfSwapLimit = arr.length - 1 - currentIndex;
-
-            arrTemp[newIndexOfSwapLimit] = currentNumber;
-
-            System.arraycopy(arr, currentIndex + 1, arrTemp, 0, arr.length - 1 - currentIndex);
-            System.arraycopy(arr, 0, arrTemp, newIndexOfSwapLimit + 1, currentIndex);
-
-            arr = arrTemp;
+            Node newTail = limitNode.prev;
+            tail.next = limitNode;
+            limitNode.prev = tail;
+            tail = newTail;
+            tail.next = null;
         }
 
-        StringBuilder printout = new StringBuilder();
-
-        for (int i = 0; i < arr.length - 1; i++) {
-            printout.append(arr[i]).append(" ");
+        StringBuilder sb = new StringBuilder();
+        current = head;
+        while (current != null) {
+            sb.append(current.val).append(" ");
+            current = current.next;
         }
-        printout.append(arr[arr.length - 1]);
 
-        System.out.println(printout);
+        System.out.println(sb);
+    }
+
+    static class Node {
+        int val;
+        Node next;
+        Node prev;
+
+        Node(int val, Node prev) {
+            this.prev = prev;
+            this.val = val;
+        }
     }
 }
