@@ -5,36 +5,45 @@ import java.io.InputStreamReader;
 public class PathToOne {
     public static void main(String[] args) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        int n = Integer.parseInt(reader.readLine());
-        int counter = 0;
 
-int asd = next_biggest_power_of_2(n);
+        int input = Integer.parseInt(reader.readLine());
 
-        System.out.println(counter);
+        int count = 0;
+
+        while (true) {
+            while (input % 2 == 0) {
+                count++;
+                input /= 2;
+
+                if (input == 1) {
+                    System.out.println(count);
+                    return;
+                }
+            }
+
+            int inputTemp = input + 1;
+            int countAdd = 0;
+
+            while (inputTemp % 2 == 0) {
+                inputTemp /= 2;
+                countAdd++;
+            }
+
+            inputTemp = input - 1;
+            int countSubtract = 0;
+
+            while (inputTemp % 2 == 0) {
+                inputTemp /= 2;
+                countSubtract++;
+            }
+
+            if (countSubtract > countAdd || input == 3) {
+                input--;
+                count++;
+            } else {
+                input++;
+                count++;
+            }
+        }
     }
-
-    private static int next_smallest_power_of_2(int x) {
-        x--;
-        x |= x >> 1;
-        x |= x >> 2;
-        x |= x >> 4;
-        x |= x >> 8;
-        x |= x >> 16;
-        x++;
-
-        return x / 2;
-    }
-
-    private static int next_biggest_power_of_2(int x) {
-        x--;
-        x |= x >> 1;
-        x |= x >> 2;
-        x |= x >> 4;
-        x |= x >> 8;
-        x |= x >> 16;
-        x++;
-
-        return x;
-    }
-
 }

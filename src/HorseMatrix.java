@@ -34,7 +34,7 @@ public class HorseMatrix {
                 if (currentChar == ' ') {
                     iterator++;
                     continue;
-                } else if (Character.isAlphabetic(currentChar)) {
+                } else if (currentChar != '-') {
                     if (currentChar == 's') {
                         startY = i;
                         startX = j;
