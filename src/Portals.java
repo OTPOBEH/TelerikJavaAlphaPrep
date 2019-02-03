@@ -5,7 +5,6 @@ import java.io.InputStreamReader;
 public class Portals {
     private static int[][] field;
     private static boolean[][] visited;
-
     public static void main(String[] args) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
