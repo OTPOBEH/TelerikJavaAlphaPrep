@@ -47,8 +47,6 @@ public class LargestAreaInMatrixRecursion {
         } else {
             visited[x][y] = true;
             int best = 0;
-            int bestX = x;
-            int bestY = y;
 
             for(int i = 0; i < 4;i++){
 
@@ -62,9 +60,6 @@ public class LargestAreaInMatrixRecursion {
                     int v = dfs(matrix,modX,modY,value);
                     best += v;
                 }
-
-                x = bestX;
-                y = bestY;
             }
             return best + 1;
         }
