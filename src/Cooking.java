@@ -40,7 +40,10 @@ public class Cooking {
 
     for (int i = 0; i < numberOfUsedIngredients; i++) {
       String[] input = reader.readLine().split(":");
-      double amount = Double.parseDouble(input[0]) * unitsInMilliliters.get(input[1]);
+      double amount = Double.parseDouble(input[0]);
+      String dimensionUnits = input[1];
+
+      double recipeAmountMilliliters = recipeIngredients.get(input[2]) * unitsInMilliliters.get(ingredientsAndMeasuringUnits.get(input[2]));
 
       double toAdd = recipeIngredients.get(input[2]) - amount;
 
